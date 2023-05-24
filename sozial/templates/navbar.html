@@ -1,0 +1,50 @@
+
+<nav class="navbar navbar-expand-lg mt-4 bg-light rounded container">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="/static/images/logo4.png" style="width: 160px; height: 60px;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        
+         
+        </ul>
+        <ul class="navbar-nav me-2 mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">
+              <img src="/static/images/home.png" style="width: 50px; height: 50px;">
+            </a>
+          </li>
+          {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          {% if user.profile.image %}
+          <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           
+            <img src="{{user.profile.image.url}}" style="border: 1px solid green; 
+                    border-radius: 50%; width: 50px; height: 50px; padding: 3px;">
+          </a>
+          {% else %}
+          <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           
+            <img src="/static/images/dummy.png" style="border: 1px solid green; 
+                    border-radius: 50%; width: 50px; height: 50px; padding: 3px;">
+          </a>
+          {% endif %}
+          <ul class="dropdown-menu justify-content-left">
+            <li><a class="dropdown-item" href="#">Welcome, {{user.username}}</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/profilepage/{{user.username}}">View Profile</a></li>
+           
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'signout' %}">Sign-Out</a></li>
+          </ul>
+        </li>
+        {% endif %}
+      </ul>
+      </div>
+    </div>
+  </nav>
+
