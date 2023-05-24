@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Profile, Post, Comment,Likes, Reply, FollowerCount
 from itertools import chain
+from django.db.models import Q 
 import random
 # Create your views here.
 @login_required(login_url='signin')
@@ -21,6 +22,9 @@ def index(request):
         feed_lists = Post.objects.filter(user__username = usernames)
         feed.append(feed_lists)
     feed_list = list(chain(*feed))
+    Search_account = request.GET.getlist('search')
+    if Search_account:
+        feed_list = Post.objects.filter(user__username__in= Search_account)
 ################################################################################################
     all_users = User.objects.all()
     user_following_all = []
@@ -43,12 +47,16 @@ def index(request):
     for ids in username_profile:
         profile_lists = Profile.objects.filter(user__id=ids)
         username_profile_list.append(profile_lists)
-    print(username_profile_list)
+   
     suggestions_username_profile_list = list(chain(*username_profile_list))
-    print(suggestions_username_profile_list)
+   ##########################################################################################################
+    
+   
+
     context = {
         'all_post' : feed_list,
-        'suggestions_username_profile_list': suggestions_username_profile_list[:4]
+        'suggestions_username_profile_list': suggestions_username_profile_list[:4],
+        'Search_account' : Search_account
     }
     return render(request, 'index.html', context)
 
