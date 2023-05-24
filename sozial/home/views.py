@@ -11,6 +11,7 @@ import random
 @login_required(login_url='signin')
 def index(request):
     all_post = Post.objects.all().reverse()
+#########################################################################################
     user_following_list = []
     feed = []
     user_following = FollowerCount.objects.filter(followed_by= request.user.username)
@@ -22,6 +23,7 @@ def index(request):
         feed_lists = Post.objects.filter(user__username = usernames)
         feed.append(feed_lists)
     feed_list = list(chain(*feed))
+##############################################################################################
     Search_account = request.GET.getlist('search')
     if Search_account:
         feed_list = Post.objects.filter(user__username__in= Search_account)
